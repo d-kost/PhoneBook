@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PhoneBook</string>
+    <string name="countLabel">Count of contacts: </string>
+    <string name="etNewContact">Contact Name</string>
+    <string name="etNewNumber">Number</string>
+    <string name="btnNewContact">New contact</string>
+    <string name="nameSort">sort by name</string>
+    <string name="numberSort">sort by number</string>
+</resources>
