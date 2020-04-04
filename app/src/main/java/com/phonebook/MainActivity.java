@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -39,12 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                Log.i("mytag", "id = "+checkedId);
                 updateViewList();
-                //call update
-                //pass checkedId
-
-                //getQueryWithOrder(checkedId);
             }
         });
 
@@ -55,10 +49,9 @@ public class MainActivity extends AppCompatActivity {
         Cursor tunes = phoneBookDatabase.rawQuery(getQueryWithOrder(), null);
         String[] number_fields = tunes.getColumnNames();
 
-        int[] views = { R.id.id, R.id.name, R.id.number, R.id.viber, R.id.telegram, R.id.whatsup };
+        int[] views = { R.id.id, R.id.name, R.id.number, R.id.viber, R.id.telegram, R.id.whatsapp };
 
         adapter = new SimpleCursorAdapter(this, R.layout.phone_item, tunes, number_fields, views, 0 );
-//        processResponse();
         lv.setAdapter(adapter);
 
         tvCount.setText(Integer.toString(tunes.getCount()));
@@ -67,14 +60,6 @@ public class MainActivity extends AppCompatActivity {
     private String getQueryWithOrder() {
         int chosenId = rgChoice.getCheckedRadioButtonId();
 
-        return getQueryWithOrderBody(chosenId);
-    }
-
-    private String getQueryWithOrder(int chosenId) {
-        return getQueryWithOrderBody(chosenId);
-    }
-
-    private String getQueryWithOrderBody(int chosenId) {
         String query = "SELECT * FROM phone";
         String order = getCheckedOrder(chosenId);
         query += order == null ? "" : " ORDER BY " + order;
@@ -84,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private String getCheckedOrder(int chosenId) {
-//        int chosenId = rgChoice.getCheckedRadioButtonId();
 
         String result;
         switch (chosenId) {
@@ -98,9 +82,6 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
-//    private void processResponse() {
-//
-//    }
 
     public void onNewContactClick(View view) {
         String name = etName.getText().toString();
@@ -115,11 +96,12 @@ public class MainActivity extends AppCompatActivity {
     private void addNewContact(String name, String number) {
         Random r = new Random();
 
-        Object[] args = {name, number, r.nextInt(2),
-                r.nextInt(2), r.nextInt(2)};
-        phoneBookDatabase.execSQL("DELETE FROM phone WHERE viber=0 AND telegram=0 AND whatsup=1");
+        String viber = r.nextInt(2) == 1 ? "Viber" : "";
+        String telegram = r.nextInt(2) == 1 ? "Telegram" : "";
+        String whatsapp = r.nextInt(2) == 1 ? "WhatsApp" : "";
 
-        phoneBookDatabase.execSQL("INSERT INTO phone (name, number, viber, telegram, whatsup) values (?, ?, ?, ?, ?)", args);
+        Object[] args = {name, number, viber, telegram, whatsapp};
+        phoneBookDatabase.execSQL("INSERT INTO phone (name, number, viber, telegram, whatsapp) values (?, ?, ?, ?, ?)", args);
 
         updateViewList();
 

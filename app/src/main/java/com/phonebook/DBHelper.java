@@ -10,7 +10,7 @@ public class DBHelper extends SQLiteOpenHelper {
     final static String DB_NAME = "phonebook.db";
     final static String TABLE = "phone";
     final static String CREATE = "CREATE TABLE " + TABLE + " ( `_id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "`name` TEXT NOT NULL, `number` TEXT NOT NULL, `viber` INTEGER, `telegram` INTEGER, `whatsup` INTEGER )";
+            "`name` TEXT NOT NULL, `number` TEXT NOT NULL, `viber` TEXT, `telegram` TEXT, `whatsapp` TEXT )";
     private final static int DB_VERSION = 1;
 
 
@@ -21,8 +21,8 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE);
-        db.execSQL("INSERT INTO phone (name, number, viber, telegram, whatsup) " +
-                "VALUES ('Galya', '79501112233', 1, 0, 0)");
+        db.execSQL("INSERT INTO phone (name, number, viber, telegram, whatsapp) " +
+                "VALUES ('Anna', '79501112233', 'Viber', '', 'WhatsApp')");
 
     }
 
